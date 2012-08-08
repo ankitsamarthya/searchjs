@@ -1,0 +1,101 @@
+#glossary {
+  position: relative;
+
+  .nav {
+    li {
+      width: 100%;
+      border: 1px solid #EEE;
+      border-bottom: none; }
+    li:first-child {
+      @include round-top-corners(4px);
+      a { @include round-top-corners(4px); } }
+    li:last-child {
+      border-bottom: 1px solid #EEE;
+      @include round-bottom-corners(4px);
+      a { @include round-bottom-corners(4px); } }
+
+    a {
+      display: block;
+      padding: 8px 20px;
+      color: white;
+      color: #555;
+      font-weight: 500; }
+    a:hover { color: #999; }
+    .active {
+      a, a:hover {
+          @include linear-gradient(top, #79bef0 0, #017fd6 90%);
+          color: white; } }
+  }
+
+  code { display: block; }
+  code.inline{ display: inline; padding: 0; }
+
+  #glossary-content > .section { margin-bottom: 60px; }
+  .section {
+    margin-bottom: 40px;
+    table {
+      span {
+        font-size: 110%;
+        color: #333 } }
+  }
+
+  table td { line-height: 1.6em; }
+
+  #operators-table, #errors-table {
+    th:last-child { width: 200px; }
+    th:first-child { width: 200px; }}
+  #glossary-nav { 
+    position: absolute; 
+    top: 0;
+  }
+  #glossary-content { 
+    @include margin_left(270px);
+    float: $right;
+  }
+
+  code .indent { margin-left: 2em; }
+
+  #search_box_div {
+  position: fixed;
+  top: 75px;
+  right: 10px;
+  height: 100px;
+  width: 180px;
+  z-index: 100;
+}
+
+#search_query {
+ color: gray;
+ width: 160px;
+}
+
+#search_message {
+  float: left;
+  color: red;
+}
+#search_submit {
+  float: left;
+  font-weight: 500;
+  @include linear-gradient(top, #79bef0 0, #017fd6 90%);
+  color: white;
+}
+
+#search_prev, #search_next {
+  float: left;
+  margin-left: 5px;
+  font-weight: 500;
+  color: white;
+}
+
+.button_background {
+  @include linear-gradient(top, #79bef0 0, #017fd6 90%);
+}
+
+.highlight {
+  background-color: #DDDDFF;
+}
+
+.highlighted {
+  background-color: yellow;
+}
+}
