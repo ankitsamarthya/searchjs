@@ -6,9 +6,9 @@
         '<div id="search_box_div" >'
         + '<form id="search_box">'
         +   '<input id="search_query" type="text" name: "search_query" />'
-        +   'Search   <input id="search_submit" type="button" />'
-        +   'Next     <input id="search_next" type="button" />'
-        +   'Previous <input id="search_prev" type="button" />'
+        +   '<input id="search_submit" type="button" value="Search"/>'
+        +   '<input id="search_next" type="button" value="Next"/>'
+        +   '<input id="search_prev" type="button" value="Prev"/>'
         +   '<p id="search_message"></p>'
         + '</div>';
 
@@ -67,11 +67,11 @@
             message.text("Result " + (index+1) + " of " + $results.length );
             // and make next button clickable
             if (!nextButton.data('events')) {
-              nextButton.on("click",nextClicked).addClass("button_background");
+              nextButton.on("click", nextClicked).addClass("button_background");
             }
           } else {
             // If there were no results after the first show that there was 1 result
-            message.text(msg);
+            message.text("1 result found");
           }
         } else {
           // If we didnt get results say so
@@ -99,36 +99,37 @@
         // will always be able to go backwards since we just went forwards
         // but attaching another handler if one exists results in multiple
         // handlers that all fire when it is clicked
-        if (!prevButton.data('events')){
+        if (!prevButton.hasClass("button_background")){
           prevButton.on("click",prevClicked).addClass("button_background");
         }
 
       };
 
       // handler function for previous button
-      var prevClicked = function () {
-        index--;
-        // remove previous highlight and reset it to passive highlight
-        $(".highlighted").removeClass("highlighted").addClass("highlight");
-        
-        // we know whenever this button is able to be clicked that there is a result.
-        // so animate to it and highlight it and update count
-        $('html, body').animate({ scrollTop: $results.eq(index).offset().top-5}, 0);
-        $results.eq(index).removeClass("highlight").addClass("highlighted");
-        message.text("Result " + (index + 1) + " of " + $results.length );
+    var prevClicked = function () {
+      index--;
+      
+      // remove previous highlight and reset it to passive highlight
+      $(".highlighted").removeClass("highlighted").addClass("highlight");
+      
+      // we know whenever this button is able to be clicked that there is a result.
+      // so animate to it and highlight it and update count
+      $('html, body').animate({ scrollTop: $results.eq(index).offset().top-5}, 0);
+      $results.eq(index).removeClass("highlight").addClass("highlighted");
+      message.text("Result " + (index + 1) + " of " + $results.length );
 
-        // will always be able to go forwards since we just went backwards
-        // but attaching another handler without checking results in multiple
-        // handlers that all fire when it is clicked
-        if (!$("#search_next").data('events')){
-          nextButton.on("click",nextClicked).addClass("button_background");
-        }
+      // will always be able to go forwards since we just went backwards
+      // but attaching another handler without checking results in multiple
+      // handlers that all fire when it is clicked
+      if (!prevButton.hasClass("button_background")){
+        nextButton.on("click",nextClicked).addClass("button_background");
+      }
 
-        // then do same logic to see if we should show prev button again or end search
-        if ( (index-1) === -1 ){
-          prevButton.off("click",prevClicked).removeClass("button_background");
-        }
-      };
+      // then do same logic to see if we should show prev button again or end search
+      if ( (index-1) === -1 ){
+        prevButton.off("click",prevClicked).removeClass("button_background");
+      }
+    };
       
       // quick handler so that user can click search button repeatedly as well as hit enter to progress
       $("#search_submit").click(function () {
