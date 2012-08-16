@@ -19,7 +19,6 @@
   #search_submit {
     float: left;
     font-weight: 500;
-    @include linear-gradient(top, #79bef0 0, #017fd6 90%);
     color: white;
   }
 
