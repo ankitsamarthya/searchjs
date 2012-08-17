@@ -1,16 +1,4 @@
-jquery-plugins
+*SearchBox.js*
 ==============
 
-helpful jQuery Plugins
-
--to do
-
--transform library so that it works standalone (get rid of CC specific things)
-
--make sure CSS is good
-
--make 2 versions, 1 that is just highlight addition to jquery, 1 that is both bundled with css to make search box
-
--clean up code, make sure it is as robust as possible
-
--publish that shit!
+Jquery plugin to automatically add search features to a webpage. highlight.js is a plugin to automatically wrap or unwrap any text on a page in a span of a chosen class. searchBox.js leverages this functionality to create an automated fixed search box in the top right of the page.
