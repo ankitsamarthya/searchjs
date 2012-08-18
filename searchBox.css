@@ -5,29 +5,31 @@
   height: 100px;
   width: 180px;
   z-index: 100;
+}
 
+#search_box_div #search_query {
+ color: gray;
+ width: 160px;
+}
 
-  #search_query {
-   color: gray;
-   width: 160px;
-  }
+#search_box_div #search_message {
+  float: left;
+  color: red;
+}
 
-  #search_message {
-    float: left;
-    color: red;
-  }
-  #search_submit {
-    float: left;
-    font-weight: 500;
-    color: white;
-  }
+#search_box_div #search_submit {
+  float: left;
+  font-weight: 500;
+  color: white;
+  background-color: blue;
+}
 
-  #search_prev, #search_next {
-    float: left;
-    margin-left: 5px;
-    font-weight: 500;
-    color: white;
-  }
+#search_box_div #search_prev, #search_next {
+  float: left;
+  margin-left: 5px;
+  font-weight: 500;
+  color: white;
+  background-color: blue;
 }
 
 .highlight {
@@ -37,4 +39,4 @@
 .highlighted {
   background-color: yellow;
 }
-}
+
