@@ -7,44 +7,42 @@
 
   plugin.settings = {}
 
-  var $element = $(element),
-       element = element;
+  var $element = $(element)
+  ,    element = element;
 
-  var defaults = {
-    //$searchArea:  this
-    $searchArea:  $element
-    , message:    "#search_message"
-    , nextButton: "#search_next"
-    , prevButton: "#search_prev"
-    , searchBox:  "#search_box"
-    , searchHTML: 
-      '<div id="search_box_div" >'
-      + '<form id="search_box">'
-      +   '<input id="search_query" type="text" name: "search_query" />'
-      +   '<input id="search_submit" type="button" value="Search"/>'
-      +   '<input id="search_next" type="button" value="Next"/>'
-      +   '<input id="search_prev" type="button" value="Prev"/>'
-      +   '<p id="search_message"></p>'
-      + '</div>'
-    }
+  // instantiate global variables here for organization, but dont worry they are scoped to the plugin!
+  previous_search      =  ""
+  , index              =  0
+  , $searchArea        =  $element
+  , $results           =  {}
+  , $searchBox         =  {}
+  , $nextButton        =  {}
+  , $prevButton        =  {}
+  , $message           =  {};
+
+  // html to inject into DOM to create search bar
+  searchHTML         =
+    '<div id="search_box_div" >'
+    + '<form id="search_box">'
+    +   '<input id="search_query" type="text" name= "search_query" placeholder="Search The Page"/>'
+    +   '<input id="search_submit" type="button" value="Search"/>'
+    +   '<input id="search_next" type="button" value="Next"/>'
+    +   '<input id="search_prev" type="button" value="Prev"/>'
+    +   '<p id="search_message"></p>'
+    + '</div>';
 
   // constructor for plugin
   plugin.init = function() {
-      plugin.settings = $.extend({}, defaults, options);
+      // plugin.settings = $.extend({}, defaults, options);
       
-      // attach search box html to body
-      $('body').prepend(defaults.searchHTML);
+      // inject search DOM elements to body
+      $('body').prepend(searchHTML);
 
-      // instantiate variables
-      plugin.settings.previous_search =  "";
-      plugin.settings.index           =  0;
-      plugin.settings.$results        =  {}
-
-      // get values from defaults where appropriate, later allow user to override
-      plugin.settings.$searchBox   = $(defaults.searchBox);
-      plugin.settings.$nextButton  = $(defaults.nextButton);
-      plugin.settings.$prevButton  = $(defaults.prevButton);
-      plugin.settings.$message  = $(defaults.message);
+      // these can only be given values after DOM is injected
+     $searchBox            =  $("#search_box")
+      , $nextButton        =  $("#search_next")
+      , $prevButton        =  $("#search_prev")
+      , $message           =  $("#search_message")
 
       // attach JS to search box html
       attachSearch();
@@ -53,14 +51,8 @@
   // private function attaches search JS to proper elements
   var attachSearch = function() {
 
-     $searchBox  = plugin.settings.$searchBox;
-     $searchArea = plugin.settings.$searchArea;
-     $nextButton = plugin.settings.$nextButton;
-     $prevButton = plugin.settings.$prevButton;
-     $message    = plugin.settings.$message; 
-     var index   = plugin.settings.index;
+    $searchBox.on("submit", function (e) {
 
-    plugin.settings.$searchBox.on("submit", function (e) {
       e.preventDefault();
 
       // Term that user searched for
@@ -68,16 +60,16 @@
 
       // If search is same as last submit then iterate instead of a new search
       // and return false to exit
-      if (text === plugin.settings.previous_search) {
-        if (plugin.settings.$results.eq(index + 1)) { 
+      if (text === previous_search) {
+        if ($results.eq(index + 1)) { 
           $nextButton.click();
         }
         return false;
       }
 
       // otherwise reset index and get new previous search value
-      index = plugin.settings.index = 0;
-      plugin.settings.previous_search = text;
+      index = index = 0;
+      previous_search = text;
 
       // restore to original HTML before new search
       $searchArea.removeHighlight();
@@ -85,7 +77,7 @@
       // wrap all matches in class of "highlight"
       $searchArea.highlight(text,"highlight");
       
-      var $results = plugin.settings.$results = $(".highlight");
+      $results = $(".highlight");
 
       if ($results.length) {
         $message.text("Result " + (index+1) + " of " + $results.length );
@@ -115,12 +107,7 @@
 
   // private handler function for nextclicked button
   var nextClicked = function () {
-     // locals
-     $nextButton = plugin.settings.$nextButton;
-     $prevButton = plugin.settings.$prevButton;
-     $message = plugin.settings.$message; 
-     var index = ++plugin.settings.index;
-     $results = plugin.settings.$results;
+    index++;
 
     // remove previous highlight and reset it to passive highlight
     $(".highlighted").removeClass("highlighted").addClass("highlight");
@@ -147,13 +134,7 @@
 
   // private handler function for previous button
   var prevClicked = function () {
-    // locals
-    $nextButton = plugin.settings.$nextButton;
-    $prevButton = plugin.settings.$prevButton;
-    $message    = plugin.settings.$message; 
-    var index   = --plugin.settings.index;
-    $results    = plugin.settings.$results;
-  
+    index--;
     // remove previous highlight and reset it to passive highlight
     $(".highlighted").removeClass("highlighted").addClass("highlight");
     
@@ -175,10 +156,9 @@
       $prevButton.off("click",prevClicked).removeClass("button_background");
     }
   };
-
-  // call plugin init() when everything is defined
   plugin.init();
 }
+
 
 // create searchbox plugin with all its data
 $.fn.searchBox = function(options) {
