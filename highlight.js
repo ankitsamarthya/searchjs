@@ -20,7 +20,7 @@
     });  
   };
   
-  // simple restore of previous html
+  // simple restore of previous html, time to figure out DOM restoration by tree was not worth it
   $.fn.removeHighlight = function () {
     this.html(this.data('previousHtml'));
   };

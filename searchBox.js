@@ -33,7 +33,7 @@
 
   // constructor for plugin
   plugin.init = function() {
-      // plugin.settings = $.extend({}, defaults, options);
+      
       
       // inject search DOM elements to body
       $('body').prepend(searchHTML);
