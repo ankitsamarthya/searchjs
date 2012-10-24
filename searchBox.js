@@ -40,9 +40,15 @@
 
       // these can only be given values after DOM is injected
      $searchBox            =  $("#search_box")
+      , $searchSubmit     =  $("#search_submit")
       , $nextButton        =  $("#search_next")
       , $prevButton        =  $("#search_prev")
       , $message           =  $("#search_message")
+
+      // link "search" button to submit form so we can reuse other handler
+      $searchSubmit.on("click", (function () {
+        $searchBox.trigger("submit");
+      }));
 
       // attach JS to search box html
       attachSearch();
