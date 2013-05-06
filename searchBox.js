@@ -10,8 +10,8 @@
   var $element = $(element)
   ,    element = element;
 
-  // instantiate global variables here for organization, but dont worry they are scoped to the plugin!
-  previous_search      =  ""
+  // instantiate plugin level globals
+  var previous_search      =  ""
   , index              =  0
   , $searchArea        =  $element
   , $results           =  {}
@@ -21,7 +21,7 @@
   , $message           =  {};
 
   // html to inject into DOM to create search bar
-  searchHTML         =
+  var searchHTML         =
     '<div id="search_box_div" >'
     + '<form id="search_box">'
     +   '<input id="search_query" type="text" name= "search_query" placeholder="Search The Page"/>'
@@ -32,8 +32,7 @@
     + '</div>';
 
   // constructor for plugin
-  plugin.init = function() {
-      
+  plugin.init = function() {   
       
       // inject search DOM elements to body
       $('body').prepend(searchHTML);
@@ -74,7 +73,7 @@
       }
 
       // otherwise reset index and get new previous search value
-      index = index = 0;
+      index = 0;
       previous_search = text;
 
       // restore to original HTML before new search
